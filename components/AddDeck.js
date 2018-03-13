@@ -1,0 +1,57 @@
+import React, { Component } from 'react'
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, KeyboardAvoidingView } from 'react-native'
+import { connect } from 'react-redux'
+import { addDeck } from '../actions'
+import { saveDeckTitle } from '../utils'
+import styles from '../styles'
+
+class AddDeck extends Component {
+  static navigationOptions = {
+    title: 'Add Deck'
+  }
+
+  state = { title: '' }
+
+  handleSubmit() {
+    let key = this.state.title
+    let entry = {
+      title: key,
+      questions: []
+    }
+
+    this.props.addDeck(key, entry)
+
+    saveDeckTitle({ key, entry })
+
+    this.setState({ title: '' })
+    this.props.navigation.navigate('Deck', { card: entry })
+  }
+
+  render() {
+    return (
+      <KeyboardAvoidingView style={styles.container} behavior="padding">
+        <View style={styles.content}>
+          <Text style={[styles.title, {marginBottom: 10}]}>What is the title of your deck?</Text>
+          <TextInput
+            style={styles.input}
+            onChangeText={(title) => this.setState({ title })}
+            value={this.state.text}
+          />
+          <TouchableOpacity
+            style={[styles.button, styles.buttonBlack]}
+            onPress={() => this.handleSubmit()}>
+            <Text style={[styles.buttonText, styles.buttonBlackText]}>Submit</Text>
+          </TouchableOpacity>
+        </View>
+      </KeyboardAvoidingView>
+    )
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addDeck: (key, entry) => dispatch(addDeck({[key]: entry})),
+  }
+}
+
+export default connect(null, mapDispatchToProps)(AddDeck);
