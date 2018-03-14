@@ -13,6 +13,7 @@ export default class App extends Component {
   componentDidMount(){
     setLocalNotification()
   }
+  
   render() {
     return (
       <Provider store={store}>

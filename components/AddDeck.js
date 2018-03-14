@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, KeyboardAvoidingView } from 'react-native'
 import { connect } from 'react-redux'
 import { addDeck } from '../actions'
-import { saveDeckTitle } from '../utils'
 import styles from '../styles'
 
 class AddDeck extends Component {
@@ -22,17 +21,8 @@ class AddDeck extends Component {
   
   handleSubmit() {
     let key = this.state.title
-    let entry = {
-      title: key,
-      questions: []
-    }
-
-    this.props.addDeck(key, entry)
-
-    saveDeckTitle({ key, entry })
-
+    this._createDeck(key)
     this.setState({ title: '' })
-    this.props.navigation.navigate('Deck', { card: entry })
   }
 
   render() {
@@ -56,28 +46,10 @@ class AddDeck extends Component {
   }
 }
 
+const mapDispatchToProps = dispatch => ({
+  createDeck: deckAction => {
+    dispatch(deckAction)
+  }
+})
 
 export default connect(null, mapDispatchToProps)(AddDeck)
-
-const mapDispatchToProps = dispatch => {
-  return {
-    createDeck: deckAction => {
-      dispatch(deckAction)
-    }
-  }
-}
-
-const mapStateToProps = state => {
-  return {
-    decks: state.decks,
-    counts: state.decks.reduce(
-      (sum, deck) => {
-        sum[deck.id] = deck.cards.length
-        return sum
-      },
-      {}
-    )
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(DecksScreen)
