@@ -17,11 +17,11 @@ class Quiz extends Component {
     showResults: false
   }
 
-  toggleView() {
+  _toggleView() {
     this.setState(previousState => ({ showQuestion: !previousState.showQuestion }))
   }
 
-  submitAnswer(status) {
+  _submitAnswer(status) {
     if (status === 'correct') {
       this.setState((previousState) => ({ correctAnswers: previousState.correctAnswers + 1 }))
     }
@@ -29,10 +29,10 @@ class Quiz extends Component {
     clearLocalNotification()
       .then(setLocalNotification)
 
-    this.changeQuestion()
+    this._changeQuestion()
   }
 
-  changeQuestion() {
+  _changeQuestion() {
     if (this.state.current === this.props.questions.length - 1) {
       this.setState((previousState) => ({ showResults: true }))
     } else {
@@ -40,7 +40,7 @@ class Quiz extends Component {
     }
   }
 
-  calculatePrecentage() {
+  _calculatePrecentage() {
     let value = (this.state.correctAnswers / this.props.questions.length) * 100
     return (
       parseFloat(value) + "%"
@@ -48,22 +48,22 @@ class Quiz extends Component {
   }
 
   render() {
-    const { card, questions, navigation } = this.props
-    const { question, answer } = questions[this.state.current]
+    const { card, count, navigation } = this.props
+    const { question, answer } = card
 
     return this.state.showResults ? (
         <View style={styles.container}>
         <View style={styles.content}>
           <View style={styles.deck}>
             <Text style={styles.title}>
-              You got {this.calculatePrecentage()} 
+              You got {this._calculatePrecentage()} 
             </Text>
           </View>
         </View>
         <View style={styles.footer}>
           <TouchableOpacity
             style={[styles.button, {marginBottom: 10}]}
-            onPress={() => navigation.navigate('Quiz', { card })}>
+            onPress={() => navigation.navigate('Quiz', { card, count })}>
             <Text style={styles.buttonText}>Restart Quiz</Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -77,14 +77,14 @@ class Quiz extends Component {
     ) : (
     <View style={styles.container}>
         <View>
-          <Text style={styles.cardsLeft}>{`Card ${this.state.current + 1} of ${questions.length}`}</Text>
+          <Text style={styles.cardsLeft}>{`Card ${this.state.current + 1} of ${count}`}</Text>
         </View>
         <View style={styles.content}>
           <View style={styles.deck}>
             <Text style={styles.title}>
               {this.state.showQuestion ? question : answer}
             </Text>
-            <TouchableOpacity onPress={() => this.toggleView()}>
+            <TouchableOpacity onPress={this._toggleView}>
               <Text style={styles.toggle}>{this.state.showQuestion ? 'Show Answer' : 'Show Question'}</Text>
             </TouchableOpacity>
           </View>
@@ -92,12 +92,12 @@ class Quiz extends Component {
         <View style={styles.footer}>
           <TouchableOpacity
             style={[styles.buttonPlain, {backgroundColor:'#7AC74F', marginBottom: 10}]}
-            onPress={() => this.submitAnswer('correct')}>
+            onPress={() => this._submitAnswer('correct')}>
             <Text style={styles.buttonBlackText}>Correct</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.buttonPlain, {backgroundColor:'#DB504A'}]}
-            onPress={() => this.submitAnswer('incorrect')}>
+            onPress={() => this._submitAnswer('incorrect')}>
             <Text style={styles.buttonBlackText}>Incorrect</Text>
           </TouchableOpacity>
         </View>
@@ -109,7 +109,7 @@ class Quiz extends Component {
 const mapStateToProps = (state, props) => {
   return {
     card: props.navigation.state.params.card,
-    questions: props.navigation.state.params.card.questions
+    count: props.navigation.state.params.count
   }
 }
 

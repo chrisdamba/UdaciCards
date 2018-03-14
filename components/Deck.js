@@ -32,7 +32,7 @@ class Deck extends Component {
           {count > 0 ? (
             <TouchableOpacity
               style={[styles.button, {backgroundColor:'#000'}]}
-              onPress={() => navigation.navigate('Quiz', { card })}>
+              onPress={() => navigation.navigate('Quiz', { card, count })}>
               <Text style={[styles.buttonText, {color: '#FFF'}]}>Start Quiz</Text>
             </TouchableOpacity>
           ) : null }
