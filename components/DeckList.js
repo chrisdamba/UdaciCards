@@ -6,7 +6,7 @@ import { readDecks } from '../utils'
 import styles from '../styles'
 
 const DeckCard = ({ count, card, navigation }) => (
-  <View style={styles.deckListItem} key={card.title}>
+  <View style={styles.deckListItem} key={card.id}>
     <TouchableOpacity onPress={() => navigation.navigate('Deck', { card, count })}>
       <Text style={styles.title}>{card.name}</Text>
       <Text style={styles.amount}>{count} cards</Text>

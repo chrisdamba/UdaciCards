@@ -68,7 +68,7 @@ class Quiz extends Component {
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.button, {backgroundColor:'#000'}]}
-            onPress={() => navigation.navigate('Deck', { card })}>
+            onPress={() => navigation.navigate('Deck', { card, count })}>
             <Text style={[styles.buttonText, { color: '#FFF' }]}>Back to Deck</Text>
           </TouchableOpacity>
         </View>
