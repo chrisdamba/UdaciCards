@@ -7,7 +7,7 @@ class Deck extends Component {
   static navigationOptions = ({ navigation }) => {
     const { card } = navigation.state.params
     return {
-      title: card.title
+      title: card.name
     }
   }
 
