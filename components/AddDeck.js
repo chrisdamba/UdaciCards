@@ -12,6 +12,14 @@ class AddDeck extends Component {
 
   state = { title: '' }
 
+  _createDeck = name => {
+    let createDeckAction = addDeck(name)
+    this.props.createDeck(createDeckAction)
+    this.props.navigation.navigate("CardCreation", {
+      deckId: createDeckAction.data.id
+    })
+  }
+  
   handleSubmit() {
     let key = this.state.title
     let entry = {
@@ -48,10 +56,28 @@ class AddDeck extends Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+
+export default connect(null, mapDispatchToProps)(AddDeck)
+
+const mapDispatchToProps = dispatch => {
   return {
-    addDeck: (key, entry) => dispatch(addDeck({[key]: entry})),
+    createDeck: deckAction => {
+      dispatch(deckAction)
+    }
   }
 }
 
-export default connect(null, mapDispatchToProps)(AddDeck);
+const mapStateToProps = state => {
+  return {
+    decks: state.decks,
+    counts: state.decks.reduce(
+      (sum, deck) => {
+        sum[deck.id] = deck.cards.length
+        return sum
+      },
+      {}
+    )
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(DecksScreen)

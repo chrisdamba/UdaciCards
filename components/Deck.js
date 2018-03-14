@@ -13,26 +13,26 @@ class Deck extends Component {
 
   render() {
 
-    let { card, navigation } = this.props
+    let { card, count, navigation } = this.props
 
     return (
       <View style={styles.container}>
         <View style={styles.content}>
           <View style={styles.deck}>
-            <Text style={styles.title}>{card.title}</Text>
-            <Text style={styles.amount}>{card.questions.length}</Text>
+            <Text style={styles.title}>{card.name}</Text>
+            <Text style={styles.amount}>{count}</Text>
           </View>
         </View>
         <View style={styles.footer}>
           <TouchableOpacity
             style={[styles.button, {marginBottom: 10}]}
-            onPress={() => navigation.navigate('CreateCard', { card: card })}>
+            onPress={() => navigation.navigate('CardCreation', { deckId: card.id })}>
             <Text style={styles.buttonText}>Add Card</Text>
           </TouchableOpacity>
-          {card.questions.length > 0 ? (
+          {count > 0 ? (
             <TouchableOpacity
               style={[styles.button, {backgroundColor:'#000'}]}
-              onPress={() => navigation.navigate('Quiz', { card: card })}>
+              onPress={() => navigation.navigate('Quiz', { card })}>
               <Text style={[styles.buttonText, {color: '#FFF'}]}>Start Quiz</Text>
             </TouchableOpacity>
           ) : null }
@@ -44,7 +44,8 @@ class Deck extends Component {
 
 const mapStateToProps = (state, props) => {
   return {
-    card: props.navigation.state.params.card
+    card: props.navigation.state.params.card,
+    count: props.navigation.state.params.count
   }
 }
 

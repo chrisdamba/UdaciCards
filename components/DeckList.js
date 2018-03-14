@@ -1,20 +1,18 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Text, View, TouchableOpacity, FlatList} from 'react-native'
-import { receiveDecks } from '../actions'
-import { getDecks } from '../utils'
+import { addDeck, loadData } from '../actions'
+import { readDecks } from '../utils'
 import styles from '../styles'
 
-const DeckCard = ({ card, navigation }) => {
-  return (
-    <View style={styles.deckListItem} key={card.title}>
-      <TouchableOpacity onPress={() => navigation.navigate('Deck', { card })}>
-        <Text style={styles.title}>{card.title}</Text>
-        <Text style={styles.amount}>{card.questions.length}</Text>
-      </TouchableOpacity>
-    </View>
-  )
-}
+const DeckCard = ({ count, card, navigation }) => (
+  <View style={styles.deckListItem} key={card.title}>
+    <TouchableOpacity onPress={() => navigation.navigate('Deck', { card, count })}>
+      <Text style={styles.title}>{card.name}</Text>
+      <Text style={styles.amount}>{count} cards</Text>
+    </TouchableOpacity>
+  </View>
+)
 
 class DeckList extends Component {
   static navigationOptions = {
@@ -22,25 +20,40 @@ class DeckList extends Component {
   }
 
   componentDidMount() {
-    getDecks()
-      .then(decks => this.props.dispatch(receiveDecks(decks)))
+    readDecks()
+      .then(decks => this.props.dispatch(loadData(decks)))
   }
+  
+  _mkDeckViews() {
+    const { counts, decks, navigation } = this.props
+    if (!decks) {
+      return null
+    }
 
-  render() {
     return (
       <View style={styles.deckList}>
         <FlatList
-          data={Object.keys(this.props.decks)}
+          data={Object.keys(decks)}
           keyExtractor={(card) => card}
-          renderItem={(card) => <DeckCard card={this.props.decks[card.item]} navigation={this.props.navigation} />}
+          renderItem={(card) => (<DeckCard 
+            count={counts[card.id]}
+            card={decks[card.id]} 
+            navigation={navigation} 
+          />)}
         />
       </View>
     )
   }
+  
+  render() {this._mkDeckViews()}
 }
 
-const mapStateToProps = (decks) => {
-  return { decks }
-}
+const mapStateToProps = state => ({
+  decks: state.decks,
+  counts: state.decks.reduce((acc, deck) => {
+    acc[deck.id] = deck.cards.length
+    return acc
+  }, {})
+})
 
 export default connect(mapStateToProps)(DeckList)

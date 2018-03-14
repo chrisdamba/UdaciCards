@@ -5,6 +5,6 @@ import Deck from '../models/Deck'
   
 export const addDeck = name => ({ type: ADD_DECK, data: new Deck(name) })
   
-export const addCard = deckId => ({ type: ADD_CARD, data: new Card(deckId) })
+export const addCard = (question, answer, deckId) => ({ type: ADD_CARD, data: new Card(question, answer, deckId) })
   
 export const loadData = data => ({ type: LOAD_DATA, data })
