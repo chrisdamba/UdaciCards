@@ -3,17 +3,11 @@ import { StyleSheet, Text, View, TouchableOpacity, TextInput, KeyboardAvoidingVi
 import { NavigationActions } from 'react-navigation'
 import { connect } from 'react-redux'
 import { addCard } from '../actions'
-import { addCardToDeck } from '../utils'
 import styles from '../styles'
 
 class AddCard extends Component {
-  static initialState = { question: '', answer: '' }
+  state = { question: '', answer: '' }
   static navigationOptions = { title: 'Add Card' }
-
-  constructor(props) {
-    super(props)
-    this.state = this.initialState
-  }
 
   _deckId = () => {
     return this.props.navigation.state.params.deckId
@@ -41,14 +35,14 @@ class AddCard extends Component {
           <Text style={styles.label}>Question</Text>
           <TextInput
             style={styles.input}
-            onChangeText={_this._handleQuestion}
-            value={this.state.text}
+            onChangeText={this._handleQuestion}
+            value={this.state.question}
           />
           <Text style={styles.label}>Answer</Text>
           <TextInput
             style={styles.input}
             onChangeText={this._handleAnswer}
-            value={this.state.text}
+            value={this.state.answer}
           />
           <TouchableOpacity
             style={styles.button}

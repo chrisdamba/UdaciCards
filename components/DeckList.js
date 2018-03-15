@@ -24,28 +24,21 @@ class DeckList extends Component {
       .then(decks => this.props.dispatch(loadData(decks)))
   }
   
-  _mkDeckViews() {
+  render() {
     const { counts, decks, navigation } = this.props
     if (!decks) {
       return null
     }
 
-    return (
-      <View style={styles.deckList}>
-        <FlatList
-          data={Object.keys(decks)}
-          keyExtractor={(card) => card}
-          renderItem={(card) => (<DeckCard 
-            count={counts[card.id]}
-            card={decks[card.id]} 
-            navigation={navigation} 
-          />)}
-        />
-      </View>
-    )
+    return decks.map(deck => ((
+      <DeckCard
+        card={deck}
+        count={counts[deck.id]}
+        key={deck.id}
+        navigation={navigation} 
+      />
+    )))
   }
-  
-  render() {this._mkDeckViews()}
 }
 
 const mapStateToProps = state => ({

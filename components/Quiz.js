@@ -17,11 +17,11 @@ class Quiz extends Component {
     showResults: false
   }
 
-  _toggleView() {
+  _toggleView = () => {
     this.setState(previousState => ({ showQuestion: !previousState.showQuestion }))
   }
 
-  _submitAnswer(status) {
+  _submitAnswer = status => {
     if (status === 'correct') {
       this.setState((previousState) => ({ correctAnswers: previousState.correctAnswers + 1 }))
     }
@@ -32,8 +32,8 @@ class Quiz extends Component {
     this._changeQuestion()
   }
 
-  _changeQuestion() {
-    if (this.state.current === this.props.questions.length - 1) {
+  _changeQuestion = () =>{
+    if (this.state.current === this.props.count - 1) {
       this.setState((previousState) => ({ showResults: true }))
     } else {
       this.setState((previousState) => ({ current: previousState.current + 1 }))
@@ -41,7 +41,7 @@ class Quiz extends Component {
   }
 
   _calculatePrecentage() {
-    let value = (this.state.correctAnswers / this.props.questions.length) * 100
+    let value = (this.state.correctAnswers / this.props.count) * 100
     return (
       parseFloat(value) + "%"
     )
