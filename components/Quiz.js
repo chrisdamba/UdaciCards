@@ -49,7 +49,6 @@ class Quiz extends Component {
 
   render() {
     const { card, count, navigation } = this.props
-    const { question, answer } = card
 
     return this.state.showResults ? (
         <View style={styles.container}>
@@ -82,7 +81,7 @@ class Quiz extends Component {
         <View style={styles.content}>
           <View style={styles.deck}>
             <Text style={styles.title}>
-              {this.state.showQuestion ? question : answer}
+              {this.state.showQuestion ? card.question : card.answer}
             </Text>
             <TouchableOpacity onPress={this._toggleView}>
               <Text style={styles.toggle}>{this.state.showQuestion ? 'Show Answer' : 'Show Question'}</Text>
