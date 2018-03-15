@@ -6,10 +6,8 @@ function decksWithNewCard(oldDecks, card) {
   let newState = oldDecks.map(deck => {
     if (deck.id === card.deckId) {
       deck.addCard(card)
-      return deck
-    } else {
-      return deck
-    }
+    } 
+    return deck 
   })
   saveDecks(newState)
   return newState
