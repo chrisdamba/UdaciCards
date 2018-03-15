@@ -1,5 +1,5 @@
 import { ADD_DECK, ADD_CARD, LOAD_DATA } from '../actions/types'
-import Deck from './../model/Deck'
+import Deck from './../models/Deck'
 import { writeDecks } from './../utils'
 
 function decksWithNewCard(oldDecks, card) {
