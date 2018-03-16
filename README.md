@@ -52,3 +52,15 @@ Like `npm start`, but also attempts to open your app in the iOS Simulator if you
 #### `npm run android`
 
 Like `npm start`, but also attempts to open your app on a connected Android device or emulator. Requires an installation of Android build tools (see [React Native docs](https://facebook.github.io/react-native/docs/getting-started.html) for detailed setup). We also recommend installing Genymotion as your Android emulator. Once you've finished setting up the native build environment, there are two options for making the right copy of `adb` available to Create React Native App:
+
+
+## Inspiration and Information
+
+In developing the app there were a number of resources in the form of books and online repositories I referenced in learning however some of the following are notable in that they helped drive certain decisions in how things were done and I found useful hence attributing the sources:
+
+- [Learning React Native](http://shop.oreilly.com/product/0636920085270.do)
+
+- [Learning React Native GitHub Repo](https://github.com/bonniee/learning-react-native)
+
+- [Extreme Decoupling React, Redux, Selectors](http://www.thinkloop.com/article/extreme-decoupling-react-redux-selectors/)
+
