@@ -5,11 +5,11 @@ import { addDeck, loadData } from '../actions'
 import { readDecks } from '../utils'
 import styles from '../styles'
 
-const DeckCard = ({ count, card, navigation }) => (
-  <View style={styles.deckListItem} key={card.id}>
-    <TouchableOpacity onPress={() => navigation.navigate('Deck', { card, count })}>
-      <Text style={styles.title}>{card.name}</Text>
-      <Text style={styles.amount}>{count} cards</Text>
+const DeckCard = ({ count, deck, navigation }) => (
+  <View style={styles.deckListItem} key={deck.id}>
+    <TouchableOpacity onPress={() => navigation.navigate('Deck', { deck, count })}>
+      <Text style={styles.title}>{deck.name}</Text>
+      <Text style={styles.amount}>{count > 0 ? `${count} card${(count > 1 ? 's': '')}` : 'No cards'}</Text>
     </TouchableOpacity>
   </View>
 )
@@ -32,7 +32,7 @@ class DeckList extends Component {
 
     return decks.map(deck => ((
       <DeckCard
-        card={deck}
+        deck={deck}
         count={counts[deck.id]}
         key={deck.id}
         navigation={navigation} 

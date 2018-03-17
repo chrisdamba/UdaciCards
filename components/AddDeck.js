@@ -14,8 +14,9 @@ class AddDeck extends Component {
   _createDeck = name => {
     let createDeckAction = addDeck(name)
     this.props.createDeck(createDeckAction)
-    this.props.navigation.navigate("CardCreation", {
-      deckId: createDeckAction.data.id
+    this.props.navigation.navigate('Deck', {
+      deck: createDeckAction.data,
+      count: 0
     })
   }
   
@@ -27,13 +28,13 @@ class AddDeck extends Component {
 
   render() {
     return (
-      <KeyboardAvoidingView style={styles.container} behavior="padding">
+      <KeyboardAvoidingView style={styles.container} behavior='padding'>
         <View style={styles.content}>
           <Text style={[styles.title, {marginBottom: 10}]}>What is the title of your deck?</Text>
           <TextInput
             style={styles.input}
             onChangeText={(title) => this.setState({ title })}
-            value={this.state.text}
+            value={this.state.title}
           />
           <TouchableOpacity
             style={[styles.button, styles.buttonBlack]}
