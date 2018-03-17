@@ -9,10 +9,6 @@ class AddCard extends Component {
   state = { question: '', answer: '' }
   static navigationOptions = { title: 'Add Card' }
 
-  _deckId = () => {
-    return this.props.navigation.state.params.deckId
-  }
-
   _handleQuestion = question => {
     this.setState({ question })
   }
@@ -22,9 +18,12 @@ class AddCard extends Component {
   }
 
   _createCard = () => {
-    this.props.addCard(this.state.question, this.state.answer, this._deckId())
+    this.props.addCard(this.state.question, this.state.answer, this.props.deck.id)
     this.setState(() => ({ question: '', answer: '' }))
-    this.props.navigation.goBack()
+    this.props.navigation.navigate('Deck', {
+      deck: this.props.deck,
+      count: this.props.count+1
+    })
   }
 
   render() {
@@ -57,8 +56,8 @@ class AddCard extends Component {
 
 const mapStateToProps = (state, props) => {
   return {
-    card: props.navigation.state.params.card,
-    decks: state.decks
+    deck: props.navigation.state.params.deck,
+    count: props.navigation.state.params.count
   }
 }
 

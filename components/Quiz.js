@@ -4,6 +4,7 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import { NavigationActions } from 'react-navigation'
 import { clearLocalNotification, setLocalNotification } from '../utils'
 import styles from '../styles'
+import colors from '../styles/colors'
 
 class Quiz extends Component {
   static navigationOptions = {
@@ -48,9 +49,9 @@ class Quiz extends Component {
   }
 
   render() {
-    const { card, count, navigation } = this.props
-    let question = card.cards[this.state.current].question
-    let answer = card.cards[this.state.current].answer
+    const { deck, count, navigation } = this.props
+    let question = deck.cards[this.state.current].question
+    let answer = deck.cards[this.state.current].answer
 
     return this.state.showResults ? (
         <View style={styles.container}>
@@ -64,13 +65,13 @@ class Quiz extends Component {
         <View style={styles.footer}>
           <TouchableOpacity
             style={[styles.button, {marginBottom: 10}]}
-            onPress={() => navigation.navigate('Quiz', { card, count })}>
+            onPress={() => navigation.navigate('Quiz', { deck, count })}>
             <Text style={styles.buttonText}>Restart Quiz</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={[styles.button, {backgroundColor:'#000'}]}
-            onPress={() => navigation.navigate('Deck', { card, count })}>
-            <Text style={[styles.buttonText, { color: '#FFF' }]}>Back to Deck</Text>
+            style={[styles.button, {backgroundColor: colors.black}]}
+            onPress={() => navigation.navigate('Deck', { deck, count })}>
+            <Text style={[styles.buttonText, {color: colors.white}]}>Back to Deck</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -92,12 +93,12 @@ class Quiz extends Component {
         </View>
         <View style={styles.footer}>
           <TouchableOpacity
-            style={[styles.buttonPlain, {backgroundColor:'#7AC74F', marginBottom: 10}]}
+            style={[styles.buttonPlain, {backgroundColor: colors.green, marginBottom: 10}]}
             onPress={() => this._submitAnswer('correct')}>
             <Text style={styles.buttonBlackText}>Correct</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={[styles.buttonPlain, {backgroundColor:'#DB504A'}]}
+            style={[styles.buttonPlain, {backgroundColor: colors.red}]}
             onPress={() => this._submitAnswer('incorrect')}>
             <Text style={styles.buttonBlackText}>Incorrect</Text>
           </TouchableOpacity>
@@ -109,7 +110,7 @@ class Quiz extends Component {
 
 const mapStateToProps = (state, props) => {
   return {
-    card: props.navigation.state.params.card,
+    deck: props.navigation.state.params.deck,
     count: props.navigation.state.params.count
   }
 }
