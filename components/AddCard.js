@@ -1,29 +1,42 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, KeyboardAvoidingView } from 'react-native'
+import { FormValidationMessage } from 'react-native-elements'
 import { NavigationActions } from 'react-navigation'
 import { connect } from 'react-redux'
 import { addCard } from '../actions'
 import styles from '../styles'
 
 class AddCard extends Component {
-  state = { question: '', answer: '' }
+  state = { question: '', answer: '', error: false, requiredField: '' }
   static navigationOptions = { title: 'Add Card' }
 
   _handleQuestion = question => {
+    this._handleTextChange(question)
     this.setState({ question })
   }
 
   _handleAnswer = answer => {
+    this._handleTextChange(answer)
     this.setState({ answer })
   }
 
+  _handleTextChange = text => {
+    if (text.length > 0) {
+      this.setState({error: false})
+    }
+  }
+
   _createCard = () => {
-    this.props.addCard(this.state.question, this.state.answer, this.props.deck.id)
+    const { question, answer } = this.state
+    if (question.trim() === '' ) {
+      return this.setState({ error: true, requiredField: 'Question' })
+    }
+    if (answer.trim() === '' ) {
+      return this.setState({ error: true, requiredField: 'Answer' })
+    }
+    this.props.addCard(question, answer, this.props.deckId)
     this.setState(() => ({ question: '', answer: '' }))
-    this.props.navigation.navigate('Deck', {
-      deck: this.props.deck,
-      count: this.props.count+1
-    })
+    this.props.navigation.goBack()
   }
 
   render() {
@@ -43,6 +56,13 @@ class AddCard extends Component {
             onChangeText={this._handleAnswer}
             value={this.state.answer}
           />
+          {this.state.error ? (
+            <FormValidationMessage containerStyle={{height: 30}}>
+              {`${this.state.requiredField}`} field is required
+            </FormValidationMessage>
+          ) : (
+            <FormValidationMessage containerStyle={{height: 30}} />
+          )}
           <TouchableOpacity
             style={styles.button}
             onPress={this._createCard}>
@@ -56,8 +76,7 @@ class AddCard extends Component {
 
 const mapStateToProps = (state, props) => {
   return {
-    deck: props.navigation.state.params.deck,
-    count: props.navigation.state.params.count
+    deckId: props.navigation.state.params.deck.id
   }
 }
 

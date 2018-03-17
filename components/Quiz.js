@@ -27,9 +27,7 @@ class Quiz extends Component {
       this.setState((previousState) => ({ correctAnswers: previousState.correctAnswers + 1 }))
     }
 
-    clearLocalNotification()
-      .then(setLocalNotification)
-
+    clearLocalNotification().then(setLocalNotification)
     this._changeQuestion()
   }
 
@@ -41,8 +39,18 @@ class Quiz extends Component {
     }
   }
 
+  _restartQuiz = () => {
+    this.setState({
+      current: 0,
+      correctAnswers: 0,
+      showQuestion: true,
+      showResults: false
+    })
+  }
+
   _calculatePrecentage() {
     let value = (this.state.correctAnswers / this.props.count) * 100
+    clearLocalNotification().then(setLocalNotification)
     return (
       parseFloat(value) + "%"
     )
@@ -65,12 +73,12 @@ class Quiz extends Component {
         <View style={styles.footer}>
           <TouchableOpacity
             style={[styles.button, {marginBottom: 10}]}
-            onPress={() => navigation.navigate('Quiz', { deck, count })}>
+            onPress={() => this._restartQuiz()}>
             <Text style={styles.buttonText}>Restart Quiz</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.button, {backgroundColor: colors.black}]}
-            onPress={() => navigation.navigate('Deck', { deck, count })}>
+            onPress={() => navigation.goBack()}>
             <Text style={[styles.buttonText, {color: colors.white}]}>Back to Deck</Text>
           </TouchableOpacity>
         </View>
