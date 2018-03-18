@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, KeyboardAvoidingView } from 'react-native'
-import { FormValidationMessage } from 'react-native-elements'
 import { connect } from 'react-redux'
 import { addDeck } from '../actions'
 import styles from '../styles'
@@ -48,11 +47,11 @@ class AddDeck extends Component {
             value={this.state.title}
           />
           {this.state.error ? (
-            <FormValidationMessage containerStyle={{height: 30}}>
-              Deck title is required
-            </FormValidationMessage>
+            <Text style={styles.errorMessage}>
+              Deck title field is required
+            </Text>
           ) : (
-            <FormValidationMessage containerStyle={{height: 30}} />
+            <Text style={styles.errorMessage} />
           )}
           <TouchableOpacity
             style={[styles.button, styles.buttonBlack]}

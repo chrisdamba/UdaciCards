@@ -70,6 +70,10 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#666'
   },
+  errorMessage: {
+    height: 30,
+    color: '#DB504A'
+  },
   toggle: {
     padding: 5,
     color: '#999',

@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, KeyboardAvoidingView } from 'react-native'
-import { FormValidationMessage } from 'react-native-elements'
 import { NavigationActions } from 'react-navigation'
 import { connect } from 'react-redux'
 import { addCard } from '../actions'
@@ -57,11 +56,11 @@ class AddCard extends Component {
             value={this.state.answer}
           />
           {this.state.error ? (
-            <FormValidationMessage containerStyle={{height: 30}}>
+            <Text style={styles.errorMessage}>
               {`${this.state.requiredField}`} field is required
-            </FormValidationMessage>
+            </Text>
           ) : (
-            <FormValidationMessage containerStyle={{height: 30}} />
+            <Text style={styles.errorMessage} />
           )}
           <TouchableOpacity
             style={styles.button}
